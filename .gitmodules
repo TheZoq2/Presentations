@@ -1,0 +1,3 @@
+[submodule "cleaver-light"]
+	path = cleaver-light
+	url = https://github.com/TheZoq2/cleaver-light
