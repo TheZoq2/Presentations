@@ -111,3 +111,9 @@ def outer(in1):
     print(d) # 7.
     print(e) # 8.
 ```
+
+
+
+---
+
+# Texteditorer på tentan
