@@ -1,2 +1,4 @@
 output*.html
 output.md
+
+*.mypy_cache
