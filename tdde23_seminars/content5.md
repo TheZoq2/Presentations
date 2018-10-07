@@ -46,5 +46,71 @@ Använd *inte* inbyggda iteratorer
 
 >>> (lambda x: x + 1)((lambda y: y + 2)(3))
 
-# Gör inte sådär
+
 ```
+
+
+
+--
+
+
+### Lambda & Count
+
+- Räkna antalet förekomster av strängen "a"
+- Räkna antalet listor som är två element långa
+- Räkna antalet tal som är delbara med tre
+
+```python
+>>> count(["a", "B", "c", "a", "d"], ___________________)
+2
+>>> count([["a"], [1, 2], ["b", "c"]], ___________________)
+2
+>>> count([1, 2, 3, 4, 5, 6, 9], ___________________)
+3
+```
+
+
+
+
+
+--
+
+### Inbyggda iteratorer
+
+Vad är en iterator?
+
+
+
+### Iteratorer
+
+Kan vi skriva om `count` med iteratorfunktioner
+
+
+
+
+--
+
+### Funktionell programmering
+
+
+- Om man programmerar funktionellt kan man ej använda listor då de är objekt.
+- Python stödjer objektorienterad programmering.
+- Om man programmerar funktionellt får funktioner inte ha sidoeffekter.
+- Om en funktionellt programmerad funktion tar emot en lista får denna inte ändras, dock kan kopior av listan ändras.
+- Funktionen print() kan användas i funktionell programmering.
+- Funktionell programmering är generellt snabbare än annan programmering.
+- Inom funktionell programmering används ofta rekursion istället för for-loopar.
+- När man programmerar funktionellt måste all kod vara strikt funktionell.
+
+
+
+
+
+--
+
+### Till nästa gång:
+
+Maila frågor och funderingar till nästa seminarie
+
+
+
