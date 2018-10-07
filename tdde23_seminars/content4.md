@@ -50,8 +50,6 @@ Hur kan man få hjälp?
 
 ### Git
 
-Hur gör man följande operationer?
-
 1. Skapa en commit som ångrar en tidigare commit
 2. Ångra en commit som inte har pushats (utan att skapa en ny commit)
 3. Ändra commit-meddelandet eller lägg till fler ändringar på senaste committen
