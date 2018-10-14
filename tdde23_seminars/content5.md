@@ -81,6 +81,8 @@ Vad är en iterator?
 
 
 
+--
+
 ### Iteratorer
 
 Kan vi skriva om `count` med iteratorfunktioner
