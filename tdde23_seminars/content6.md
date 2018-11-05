@@ -30,22 +30,22 @@ def count(seq):
 ## Diskussion om paradigm
 
 ```markdown
-- Om man programmerar funktionellt kan man ej använda listor då de är objekt.
+1. Om man programmerar funktionellt kan man ej använda listor då de är objekt.
 
-- Python stödjer objektorienterad programmering.
+2. Python stödjer objektorienterad programmering.
 
-- Om man programmerar funktionellt får funktioner inte ha sidoeffekter.
+3. Om man programmerar funktionellt får funktioner inte ha sidoeffekter.
 
-- Om en funktionellt programmerad funktion tar emot en lista får denna inte ändras,
+4. Om en funktionellt programmerad funktion tar emot en lista får denna inte ändras,
 dock kan kopior av listan ändras.
 
-- Funktionen print() kan användas i funktionell programmering.
+5. Funktionen print() kan användas i funktionell programmering.
 
-- Funktionell programmering är generellt snabbare än annan programmering.
+6. Funktionell programmering är generellt snabbare än annan programmering.
 
-- Inom funktionell programmering används ofta rekursion istället för for-loopar.
+7. Inom funktionell programmering används ofta rekursion istället för for-loopar.
 
-- När man programmerar funktionellt måste all kod vara strikt funktionell.
+8. När man programmerar funktionellt måste all kod vara strikt funktionell.
 ```
 
 
@@ -90,4 +90,12 @@ dock kan kopior av listan ändras.
 --
 
 
+
+
+### Diskussion
+
+- Vilka undantag har ni stött på och vad orsakas de av?
+- Vad innebär de fyra testnivåerna enhetstestning, integrationstestning, systemtest, acceptanstest?
+- Vad innebär de två teststrategierna white-box och black-box.
+- Hur bör man planera och genomföra testning?
 
