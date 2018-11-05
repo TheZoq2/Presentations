@@ -1,3 +1,6 @@
 [submodule "cleaver-light"]
 	path = cleaver-light
 	url = https://github.com/TheZoq2/cleaver-light
+[submodule "PythonGamedevPresentation"]
+	path = PythonGamedevPresentation
+	url = https://github.com/TheZoq2/PythonGamedevPresentation
