@@ -52,7 +52,7 @@ B ::= a | b
 ```
 
 
-**[aaa, aab, a, baa, bab, b]**
+**[a, aaa, aab, ba, bb]**
 
 #### 2
 
