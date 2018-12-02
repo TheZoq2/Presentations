@@ -8,6 +8,7 @@ import qualified Data.Maybe as Maybe
 import qualified System.Environment as Environment
 import qualified System.Process as Process
 import qualified System.IO.Error as Error
+import qualified System.Directory(copyFile)
 
 -- Builds a markdown list from lines of text
 mdList :: [Text.Text] -> Text.Text
@@ -33,7 +34,9 @@ mergeMd template number preamble requiredReading content =
 
 buildFile :: String -> Text.Text -> IO ()
 buildFile outFile content = do
-    IO.writeFile "output.md" content
+    IO.writeFile "slip_input.md" content
+    slides <- Process.readProcess "slip-exe" [] ""
+    IO.writeFile "output.md" $ Text.pack slides
     Process.callCommand $ "cleaver output.md --output " ++ outFile
 
 
@@ -46,6 +49,7 @@ main = do
         requiredReading <- IO.readFile $ "reading" ++ number ++ ".md"
         content <- IO.readFile $ "content" ++ number ++ ".md"
         preamble <- Error.tryIOError $ IO.readFile $ "preamble" ++ number ++ ".md"
+        copyFile <- System.Directory.copyFile ("content" ++ number ++ ".md") ("slip_input.md")
         buildFile ("output" ++ number ++ ".html")
             $ mergeMd template
                 (Text.pack number)

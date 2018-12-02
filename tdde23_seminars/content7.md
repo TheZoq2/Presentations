@@ -14,11 +14,48 @@ Skriv en rekursiv version och en iterativ version.
 
 --
 
+![](pseudocode.jpg)
+
+--
+
+En lösning
+
+```
+function longest_sequence(seq: a list of elements, elem: a specific element)
+    set max_count and current_count to 0
+    for each element in seq do
+        if element is equal to elem then
+            increase current_count by 1
+        else 
+            max_count = max(max_count and current_count)
+            current_count = 0
+        end if
+    end for
+    return max_count
+end function
+
+function longest_sequence_rec(seq: list, elem: any object that can be in seq
+        , current: counter that defaults to 0, maximum: counter that defaults to 0)
+    if seq is empty then
+        return maximum
+    else if first element in seq == elem do
+        return longest_sequence_req(seq without the first element, elem,
+            current + 1, max of current + 1 and maximum)
+    else 
+        return longest_sequence_rec(seq without the first element
+            , elem, 0, maximum)
+    end if
+end function
+```
+
+--
+
 ### Pseudokod
 
 
 ```python
-# Översätt följande pseudokod till python. (Koden är inte exakt samma som finns på kurshemsidan)
+# Översätt följande pseudokod till python. 
+# (Koden är inte exakt samma som finns på kurshemsidan)
 
 Cocktail shaker sort
 input:
@@ -42,7 +79,7 @@ repeat
            swap e and the next element
        end if
    end for
-until no swaps took place in the second loop```
+until no swaps took place in the second loop
 ```
 
 --
@@ -174,3 +211,7 @@ except IndexError:
 --
 
 # Gamedev-workshop
+
+- Spelutveckling i python
+- Pygame
+- 17:15 i Ada Lovelace

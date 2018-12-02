@@ -106,6 +106,7 @@ False
 --
 
 ```python
+# S ::= aA | bB
 def S(seq):
     if seq and seq[0] == "a":
         return A(seq[1:])
@@ -113,11 +114,13 @@ def S(seq):
         return B(seq[1:])
     return False
 
+# A ::= aB | e
 def A(seq):
     if seq and seq[0] == "a":
         return B(seq[1:])
     return not seq 
 
+# B ::= a | b
 def B(seq):
     return seq == "a" or seq == "b"
 ```
@@ -126,6 +129,8 @@ def B(seq):
 --
 
 ```python
+# S ::= aSa | bSb | a | b | e
+
 def S(seq):
     if len(seq) >= 2 and (seq[0] == seq[-1] == "a" or seq[0] == seq[-1] == "b"):
         return S(seq[1:-1])
@@ -170,12 +175,12 @@ def is_prefix(prefix, string):
         return prefix[0] == string[0] and is_prefix(prefix[1:], string[1:])
 
 # Option 2: String comparison
-def is_prefix_alt2(prefix, string):
+def is_prefix(prefix, string):
     """ Returns true if prefix is a prefix to string, otherwise False """
     return len(string) >= len(prefix) and string[:len(prefix)] == prefix
 
 # Option 3: Built in function
-def is_prefix_alt3(prefix, string):
+def is_prefix(prefix, string):
     """ Returns true if prefix is a prefix to string, otherwise False """
     return string.startswith(prefix)
 ```
