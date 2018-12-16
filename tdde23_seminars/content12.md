@@ -2,9 +2,10 @@
 
 ## Tentainformation
 
-Info finns ocksw på kurshemsidan
+Info finns också på kurshemsidan
 
 [[(animated)
+>>
 - 6 uppgifter med *ungefär* stigande svårighetsgrad
 >>
 - Liverättning (typ)
@@ -27,12 +28,31 @@ Info finns ocksw på kurshemsidan
 ]]
 
 
+--
+
+## Material
+
+[[(animated)
+- Terminal
+- python
+- emacs, atom, vscode
+- Systemprogram (/usr/bin)
+- docs.python.org/3/library
+
+
+>>
+- En valfri bok
+- Ett A4-papper med egna anteckningar
+- Pennor och annat skrivmaterial
+]]
+
+
 
 --
 
 # Tentauppgifter
 
-https://www.ida.liu.se/~TDDE24/tenta/exempel/tenta.txt
+https://www.ida.liu.se/~TDDE24/tenta/exempel/tenta.md
 
 
 --
@@ -52,7 +72,7 @@ Skriv en rekursiv och en iterativ funktion
   [0, 'x', 2, 'x', 7]
 ```
 
-[https://goo.gl/YsqfNy](https://goo.gl/YsqfNy)
+[https://goo.gl/J8akR5](goo.gl/J8akR5)
 
 
 
@@ -71,6 +91,7 @@ resultatlistan ska vara platt. Använd inte `filter`
 ['a', 'b', 'c', 'd']
 ```
 
+[https://goo.gl/J8akR5](goo.gl/J8akR5)
 
 --
 
@@ -88,6 +109,7 @@ Listan kan innehålla även andra saker än tal. Exempel:
 
 
 
+[https://goo.gl/J8akR5](goo.gl/J8akR5)
 
 --
 
@@ -116,4 +138,25 @@ True
 >>> not has_loop('e', test_graph)
 False
 ```
+
+[https://goo.gl/J8akR5](goo.gl/J8akR5)
+
+
+--
+
+### Uppgift 6
+
+Skriv en funktion give_change som beräknar vilken växel som ska lämnas tillbaka
+när man handlar kontant i en affär.
+
+De valörer på sedlar och mynt som finns tillgängliga får hårdkodas.
+
+```python
+>>> give_change(177)
+[100, 50, 20, 5, 1, 1]
+>>> give_change(206)
+[100, 100, 5, 1]
+```
+
+[https://goo.gl/J8akR5](goo.gl/J8akR5)
 
