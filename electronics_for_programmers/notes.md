@@ -40,10 +40,14 @@ and negative voltages.
 This means that we have to *chose* reference voltage, a 0 point. This is
 generally called ground and is usually a black wire. The reason that it is
 called ground is that it is often connected to the earth which is a large
-charged block with a charge that doesn't change. But, it doesn't have to be, a
-battery has what we would call a ground, but it might have a completely
-different potential because it has no physical connected to the earth. This is
-called a floating ground.
+charged block with a charge that doesn't change. The earth isn't affected by
+any charge we can throw at it. But, it doesn't have to be, a battery has what
+we would call a ground, but it might have a completely different potential
+because it has no physical connected to the earth.
+
+The main thing to take away from this is that voltage is relative, which means
+that unless two things have the same reference voltage, voltage is meaningless.
+If you intend to communicate between two devices, connect their grounds.
 
 
 So, to summarise, voltage is the potential current between two arbitrary
@@ -233,6 +237,8 @@ Connect the negative, short pin to ground, the positive pin to one end of a
 resistor and the other end of the resistor to the controlling pin.
 
 ## Communication with sensors
+
+
 
 
 
