@@ -2,18 +2,42 @@
 
 ## Brief "earcatcher"
 
-## Self introduction
+## Hello (physical) world
 
-## A look into the future
+As with all programming, the best place to start is to say hello to the world.
+But, today we are talking about hardware so it's even more true than usual.
 
-This will be the structure of the presentation:
+The typical hello world example in electronics is to blink a LED so let's do
+that. We will be using an arduino for that which together with the raspberry pi
+is the defacto standard for hobby electroncs.
 
-- Simple electronics (how is a signal represented, what is voltage, what is ground)
-- Microcontrollers
-- Hello physical world (blinking a light)
-- Input, pull up/down resistors
-- Sensors
-- Communication protocols
+On both an arduino and a raspberry pi, we have a bunch of pins that we can
+control in software. Most of them can be controlled arbitrarily or perform
+special functions like communicating with peripherals. The Arduino uno has one
+special pin, labeled 13 which in addition to being a general purpose pin has a
+LED connected to it.
+
+To program an arduino, you generally use the arduino IDE with the arduino
+language, which for all intents and purposes is C++ and a bunch of libraries.
+
+To make our LED glow, we need to do 2 things, tell the processor that pin 13 should
+be used as an output, and tell it to turn the led on and off at in a loop.
+
+Ok, we know the pin, let's launch the arduino IDE and do some programming
+
+*Launch IDE, explain setup and loop*
+
+There are three things we need to do in order to blink the LED. First, pins on
+an arduino, and most other microcontrollers can have many states. They can be
+inputs, outputs, analog inputs and some other things. So, the first thing we
+have to do is configure the pin as an output. 
+
+With that done, we can tell the pin to turn on, which is done by using
+`digitalWrite(13, HIGH)`. Some devices use the high voltage level as on and the
+low as off for power consumption reasons, so arduino doesn't call it on or off
+but rather high and low. 
+
+Ok, we have a glowing LED, let's make it blink! Just add a bool variable and use delay
 
 ## How does electricity work?
 
@@ -81,14 +105,6 @@ or microcontrollers) unless the 3.3V device is *5 volt tolerant*. Because
 remember, voltages *close* to the '1' level are still 1. And 3.3V is *close* to
 5 so from our digital, currentless world, they are compatible.
 
-### Analog signals
-
-While we can usually hide out in our digital world, sometimes we need to deal
-with analog stuff as well, generally for reading sensors. Most of the time, you
-get an analog to digital converter or ADC to do that for you. This takes an
-analog signal, a continuous voltage and gives it to you in a digital form.
-Sometimes they are integrated in your processor, like in arduinos, and
-sometimes they are discrete components that talk some digital protocol.
 
 ## Adding programming to the physical world
 
@@ -165,53 +181,42 @@ which one should you chose? I would say you should start by looking at a
 raspberry pi, having an OS is very nice and the extra performance over a
 microcontroller might come in handy. However, it does have drawbacks:
 
+- An OS that needs time to boot
+- An OS that might interrupt your program
+- Large physical size
+- No analog inputs
+
 It also has some advantages
 
 - Built in Wifi and bluetooth
 - Easy to debug and use
 - Fast
 
-And some disadvantages
-
-- An OS that needs time to boot
-- An OS that might interrupt your program
-- Large physical size
-- No analog inputs
+## Pinouts
 
 ## Hello (Physical) world
 
-With all of that said, we can finally get on to some actual programming, yay!
-
-The hello world of embedded development is generally a blinking LED, so let's get started with that. The arduino uno board, the "classic" arduino, has a built in LED which allows us to skip hooking up hardware for this first example.
-
-So, in order to blink the LED, we first need to know where it is connected, this information is called pinout and can usually be found by searching for the device we want to know the pinout for, followed by the word pinout. This looks a bit complex, but if you roughly know what you're looking for, you should be able to find things.
-
-*Find LED symbol and pin 13*
-
-Ok, we know the pin, let's launch the arduino IDE and do some programming
-
-*Launch IDE, explain setup and loop*
-
-There are three things we need to do in order to blink the LED. First, pins on
-an arduino, and most other microcontrollers can have many states. They can be
-inputs, outputs, analog inputs and some other things. So, the first thing we
-have to do is configure the pin as an output. 
-
-With that done, we can tell the pin to turn on, which is done by using
-`digitalWrite(13, HIGH)`. Some devices use the high voltage level as on and the
-low as off for power consumption reasons, so arduino doesn't call it on or off
-but rather high and low. 
-
-Ok, we have a glowing LED, let's make it blink! Just add a bool variable and use delay
 
 
 ### Same thing on a raspberry pi
 
-using python.
+The raspberry pi does not have an onboard user LED which means that in order to blink
+one, we have to hook it up ourselves. 
 
-Ohms law comes into play, sorry, I lied
+#### LED
+A LED is a Light emitting diode, like a diode, it only allows current to flow
+in one direction, from the positive pin to the negative pin. If it does, the
+LED will give off light.
 
-### Breadboards
+So, since ground is 0, and a 'high' pin some positive voltage, all we have to
+do is connect the negative side to ground and the positive side to some output
+pin, right?
+
+Not quite, LEDs will pull any current they can, but they can only take around
+20 mA. Since they have very low resistance, they will pull the current and
+break. We therefore need to add a resistor to limit the current. LEDs also have a voltage drop, 
+
+#### Breadboards
 
 Since we now have some discrete components, we need a way to hook them up to
 each other.  We *could* manufacture a PCB or solder the wires together. But a
@@ -236,8 +241,136 @@ So, this is how you would connect the LED:
 Connect the negative, short pin to ground, the positive pin to one end of a
 resistor and the other end of the resistor to the controlling pin.
 
-## Communication with sensors
 
+## Input
+
+Ok, we have some simple output, let's add some input. To start off, we'll just
+use a push button.
+
+First, let's try the following circuit, we have one side of the button connected to
+an input pin, and the other one connected to 5v. When we press the button, the 5 v is applied to the input pin, and we should be able to read it.
+
+This works when the button is pressed, but what happens when it's released? The answer is that we don't really know. Remember that voltage in a point is meaningless unless it's in reference to something else. In the case of an unconnected pin on a microcontroller,ground is defined, but the actual voltage on the pin is not.
+
+The pin may act as a capcitor and store some charge from the last time it was connected to a fixed voltage, or it may pick up interference from other places. In fact, you can make a crude hand detector by just leaving an unconnected wire and reading the voltage on it.
+
+### Push up and pull down resistors
+
+The solution to this is to connect the pin, via a resistor to the non-pressed
+voltage. When the button is realeased, all charge on the pin will quickly go
+through the resistor, and the value of the pin will be fixed. When the button
+is pressed, the pin is directly connected to the source which will set it back
+to whatever the source is.
+
+This is called a push pu resistor if it is connected to a high voltage, and
+pull down if it is connected to ground
+
+## Communication with peripherals
+
+Single pin inputs are nice and all, but we probably want something more
+advanced, and we want to communicate with other devices, like sensors. So, how
+do we send bytes back and forth? At first you might think that since we already
+have a way of representing 0 and 1, we could just send signals by changing
+between those. However, it's not that easy, we want some way of saying that we
+are now sending one byte, which is impossible with one signal.
+
+You could connect 8 wires between the devices and just send one byte at a time,
+but you would still have the same problem, how do you tell the difference
+between 5 and 6 sequential bytes with the same value?
+
+Luckily, this is kind of a solved problem, and somehow it is actually kind of standardised. There are three main protocols: UART, SPI, and I2c and I'll give a brief introduction to them now.
+
+However, a lot of the time, you don't have to know the details, because both
+arduinos and raspis have dedicated hardware and software for using them.
+However, it is still useful to know the basics for debugging purposes.
+
+### UART
+
+UART uses two pins: transmit or tx and receive or rx. The tx pin of the host
+should connect to the rx pin of the client. The protocol is timing based, when
+idle the tx pin is high and when a byte should be sent, it is pulled low, this
+is called the start bit. After that, each bit is transitted at a predefined
+interval, followed by one or more stop bits and or parity bits.
+
+The interval between bytes is defined by the baud rate, or bits per second,
+which can be one of a bunch of different values. This depends on the device
+you're trying to communicate with and is usually either 9600 or 115200 bps.
+
+Only one device can be used per UART device
+
+### SPI
+
+In SPI, one device, usually your microcontroller is the master and it is
+communicating with a slave. It uses three pins: clk, master in slave out (MOSI)
+and master out slave in (MISO).
+
+To use it, just connect clk to clk, miso to miso and mosi to mosi. When the
+host wants to send and or receive data, it pulses the clock pin 8 times. Every
+time the clock goes from high to low, it outputs one bit on MOSI and reads one
+bit on MISO. Unlike UART, this means that a device can't send data unless the
+host requests it 
+
+Sometimes there is also a chip select pin involved. Then many devices are connected to the same SPI pins, and the master triggers the chip select pin on the device it wants to communiate with.
+
+### I2C
+
+The third protocol is called inter interconnected circuit, or i²c. It uses 2
+pins: sda and scl which stand for data and clock. It also has a master and a
+bunch of slave devices. All slave devices have a predefined address and when
+the master wants to write or read from a slave, it sends that address on the
+data line, similar to how SPI does it. When a slave sees its address on the
+line, it sends back an acknowlege signal and listens to the masters commands.
+
+The main advantage is that it allows a lot of devices on the same wire but it
+is a bit more complex and hard to debug than the other protocols.
+
+## Servos
+
+*TODO*
+
+## Let's make something!
+
+## A reverse warning
+
+A couple of times during this presentation, I have said thigns like "don't"
+release the magic smoke, don't connect 5v to 3.3v, don't do this don't do that.
+
+However, my experience is that electronics are way more tolerant than you would
+think. Be careful, but don't be too afraid of doing something wrong. The
+powersupplies we use have overcurrent protections and the electronics are
+pretty tolerant. Don't go plugging the wrong things in on purpose, but don't
+let a fear of breaking things stop you.
+
+Of course, only take this advice when you're working with low voltages, you
+till shouldn't stick a fork into a wall outlet.
+
+## Troubleshooting
+
+Inevitably, things will go wrong when you're playing around with electronics.
+So, I thought i'd end todays presentation with some common symptoms, theier
+cause and how to fix them
+
+### Unreliable communication or signal
+
+- Unconnected grounds
+- Too long wires
+
+### Sensor isn't replying
+
+- Incorrectly hooked up
+- Broken sensor
+- Broken library
+- Use an osciloscope if you can
+
+### Microcontroller keeps restarting or doing weird stuff
+
+Insufficient power
+
+### Arduino program doesn't work
+
+One of the downsides of arduinos is that they have no debugger and no OS that
+catches obvious memor issues. The best way to debug things is to print messages
+to the serial port
 
 
 

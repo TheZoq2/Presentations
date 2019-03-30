@@ -2,7 +2,48 @@ theme: ../cleaver-light
 
 ---
 
-# How2hardware 
+
+# Hello, (physical) world
+
+
+--
+
+### Arduino
+
+```c++
+void setup() {
+    
+}
+
+void loop() {
+    
+}
+```
+
+--
+
+### Arduino
+
+```c++
+const LED_PIN = 13;
+
+bool led_state;
+
+void setup() {
+    pinMode(LED_PIN, Output);
+}
+
+void loop() {
+    led_state = !led_state;
+    if(led_state) {
+        digitalWrite(LED_PIN, High);
+    }
+    else {
+        digitalWrite(LED_PIN, Low);
+    }
+    delay(1);
+}
+```
 
 --
 
@@ -97,16 +138,18 @@ Don't mix and match, keep the magic smoke inside the chips!
 
 --
 
-# Programming, finally!
+# Programming electronics
 
 --
 
 ### Programming electronics
 
-- Directly control electronics
-- Something embedable
-- Cheap
-- Low power usage?
+We need something that
+
+- can directly control electronics
+- is embedable
+- is cheap
+- doesn't use much power
 
 --
 
@@ -138,6 +181,7 @@ Don't mix and match, keep the magic smoke inside the chips!
     - Full control
     - No interrupts
     - No safeguards
+    - No heap
 >>
 ]]
 
@@ -148,6 +192,8 @@ Don't mix and match, keep the magic smoke inside the chips!
 
 A family of microcontrollers with common hardware and software to make embedded
 deveolopment approachable.
+
+<img src='resources/arduino.png' style='float:right; width:55%;'>
 
 [[(animated)
 >>
@@ -160,70 +206,155 @@ deveolopment approachable.
 
 --
 
-# Hello, (physical) world
-## Blinking an LED
+### What to chose
+
+[[(animated)
+>>
+Advantages of a raspberry PI:
+
+>>
+- Built in Wifi and bluetooth
+>>
+- Plenty of linux tools
+>>
+- Easy to debug
+>>
+- Fast
+>>
+- Programmable in most languages
+
+>>
+And some disadvantages:
+
+>>
+- Needs some time to boot
+>>
+- No timing guarantees
+>>
+- Relatively large
+>>
+- No analog inputs
+]]
 
 
 --
 
-### Arduino
-
-```c++
-void setup() {
-    
-}
-
-void loop() {
-    
-}
-```
-
---
-
-### Arduino
-
-```c++
-const LED_PIN = 13;
-
-bool led_state;
-
-void setup() {
-    pinMode(LED_PIN, Output);
-}
-
-void loop() {
-    led_state = !led_state;
-    if(led_state) {
-        digitalWrite(LED_PIN, High);
-    }
-    else {
-        digitalWrite(LED_PIN, Low);
-    }
-    delay(1);
-}
-```
-
-
---
-
-### Raspberry pi
+### An LED on a Raspberry pi
 
 No on-board LED, we'll have to make our own
 
-Also, I lied current is important
-
 [[(animated)
+<img src='resources/led_no_resistor.png' style='width:80%;'>
+>>
 - LEDs will use any current they can
 >>
 - But they can only take a few milliamps
 >>
+<img src='resources/led_with_resistor.png' style = 'width:80%;'>
+]]
+
+
+--
+
+### Ohms law again
+
+I lied, we need it for this
+
+[[(animated)
+>>
+- LEDs have a voltage drop
+    - Depends on the colour, but typically ~2-3 V
 ]]
 
 --
 
-### Breadboard
+### Hooking things up
 
-<img src='resources/breadboard.png' style=' '>
+<img src='resources/breadboard.png' style='float:left;'>
+
+
+<img src='resources/jumper_wires.png' style='float:right; width:450px;'>
+
+<img src='resources/led.png' style='float:right; width:450px;'>
+
+
+--
+
+### Where to hook things up?
+
+- Pinouts
+- Datasheets
+
+
+--
+
+## Input
+
+
+
+--
+
+# Communication
+
+--
+
+
+### Encoding data
+
+What's the difference between 1 and 111111?
+
+[[(animated)
+>>
+- Predefined time for bits
+>>
+- Other wire that says "there is data"
+>>
+- There are standard protocols
+
+>>
+
+Libraries usually handle this for you
+]]
+
+--
+
+
+### Protocol 1: UART (Universal asyncronous receiver-transmitter)
+
+- TX and RX pins
+- TX -> RX, RX->TX
+- Baud rate, usually (9600 or 115200)
+
+A nice graphic!
+
+--
+
+### Protocol 2: SPI (Serial Peripheral Interface)
+
+[[(animated)
+- CLK/SCK
+- MOSI (Master Out Slave In)
+- MISO (Master In Slave Out)
+>>
+- Sometimes chip select
+]]
+
+--
+
+### Protocol 3: **I**inter **I**nterconnected **Circuit** I²C
+
+[[(animated)
+- SCL (Clock)
+- SDA (Data)
+>>
+
+- One *master*, multiple *slaves* on the same bus
+- Address of target starts communication
+]]
+
+
+## 
+
 
 
 
