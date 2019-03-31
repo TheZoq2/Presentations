@@ -328,7 +328,74 @@ is a bit more complex and hard to debug than the other protocols.
 
 *TODO*
 
-## Let's make something!
+## Let's make something more complex!
+
+Let's make something more complex, using the things we learned so far. What we
+are going to make, is an analog digital distance sensor, not because we need
+it, but because it is a nice way of showing a bunch of different things.
+
+### Servo
+
+First we need a way to control the servo. In principle, servo control is fairly
+simple: it uses something called pulse width modulation, where we send a pulse
+at a fixed rate and the length of that pulse determines the output of the
+servo.
+
+We could go ahead and implement that ourselves, but first, let's check if it is
+a solved problem and search for 'arduino servo'.
+
+Hey look, it's in the standard library, how nice! The documentation tells us
+some things about the different capabilites of servos on different arduinos, it
+also tells us how the circuit should look.
+
+So, where do we connect the servo, it depends on the board, so let's search for
+a pinout of our board.
+
+As you can see, there is a marker for 'pwm' capable pins, this is what we are
+looking for. Most of them are capable of pwm, so let's just pick one at random,
+for example 15. Connect the red and black wires to 5v and ground, and the
+yellow wire, via a jumper wire to pin 15.
+
+Ok, let's write some code! The servo documentation has some examples, let's
+look at one. As you can see, we start by defining a servo object, then we use
+the attach function to set the pin, and then we can set the position using the
+write function.
+
+Let's make it jump in 10 degree increments using a position variable, addition
+and modulo. And maybe some delay ;)
+
+### Measuring distances
+
+Ok, we have some sort of output, let's work on input. How are we going to
+detect distances? LiTHe kod has a couple of these ultrasound sensors called
+HY-SRF05 which we can use. How do we use them though? Let's duck duck it!
+
+First result is not quite right, though the second one does show some example
+code and some hookup things. Oh look, 5V supply power, that probably means that
+the outputs are also 5V which might be damaging, let's check if our
+microcontroller can take it!
+
+Looks like it can't, that means we need some hardware inbetween to convert from
+the dangerous 5V to 3.3V. The device that does this is called a 'logic level
+converter' and we have some of those. Check the list of hardware to find out
+which one we have. These things usually have a low side, and a high side. You
+connect one or both of the ground pins to ground, then connect your high
+voltage to HV, in this case 5V which we can get from the "usb" pin on the esp.
+We can get the low voltage for LV from the ESP as well. With that hooked up,
+any signal on Ax gets converted to the other level on Bx, or the other way
+around.
+
+Ok, now, back to trying to use this thing. Looking at that example code we
+found, it uses has two pins: one input called "trig" and an output called
+"echo". If we send a 10 microsecond pulse on the trig pin, we trigger a
+measurement which we can read from the echo pin. Let's check what the pulseIn
+function does:
+
+Ok, it reads the time a pulse is high or low and returns that value, in
+microseconds.
+
+
+
 
 ## A reverse warning
 
