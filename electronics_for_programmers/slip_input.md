@@ -288,7 +288,11 @@ I lied, we need it for this
 
 --
 
-## Input
+### Input
+
+- A completely unconnected pin is *floating* and will have a nonsense value
+- Always connect inputs to a known value
+- Pull up/push down resistors do this
 
 
 --
