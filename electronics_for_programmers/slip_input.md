@@ -25,23 +25,20 @@ void loop() {
 ### Arduino
 
 ```c++
+// On the Arduino Uno, a LED is connected to pin 13
 const LED_PIN = 13;
 
-bool led_state;
-
 void setup() {
+    // Configure the LED pin as an output
     pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-    led_state = !led_state;
-    if(led_state) {
-        digitalWrite(LED_PIN, HIGH);
-    }
-    else {
-        digitalWrite(LED_PIN, LOW);
-    }
-    delay(1000);
+    // Change the state of the pin, then wait 500 milliseconds
+    digitalWrite(LED_PIN, HIGH);
+    delay(500);
+    digitalWrite(LED_PIN, LOW);
+    delay(500);
 }
 ```
 
@@ -54,12 +51,12 @@ void loop() {
 ### Ohms Law
 
 [[(animated)
-- More voltage -> More current
+- More voltage → More current
 >>
-- More resistance -> Less current
+- More resistance → Less current
 >>
 
-But, we don't really have to care. In digital circuits, voltage is all that matters
+But, we don't really have to care. In digital circuits, voltage is (usually) all that matters
 ]]
 
 
@@ -77,12 +74,15 @@ Disclaimer: i'm simplifying, physicists may get angry.
 [[(animated)
 - Voltage is a measure of electric potential
 >>
-- High voltage -> flow of charge (current) to lower voltage
+- High voltage → flow of charge (current) to lower voltage
+>>
+- Voltage is distributed across a conductor
 >>
 - Everything is relative, including voltage
 - We choose what a "high" voltage is by chosing what 0 volts is
 >>
-- The zero point is called "ground", because the earth can absorbe any charge us puny humans throw at it
+- The zero point is called "ground", because the earth can absorbe any charge
+  us puny humans throw at it
 >>
 - Voltage is meaningless uneless there is a common reference
 >>
@@ -93,7 +93,10 @@ Disclaimer: i'm simplifying, physicists may get angry.
 
 ## Digital signals
 
+Transmiting data
+
 [[(animated)
+>>
 - Analog is unprecise and error prone
     - We don't want data to degrade because we used a long wire.
 >>
@@ -131,8 +134,6 @@ Disclaimer: i'm simplifying, physicists may get angry.
 >>
 
 Don't mix and match, keep the magic smoke inside the chips!
->>
-
 ]]
 
 
@@ -144,12 +145,7 @@ Don't mix and match, keep the magic smoke inside the chips!
 
 ### Programming electronics
 
-We need something that
-
-- can directly control electronics
-- is embedable
-- is cheap
-- doesn't use much power
+We need something programable that can control electronics
 
 --
 
@@ -159,11 +155,11 @@ We need something that
 
 [[(animated)
 >>
-- Full fledged computer
->>
-- GPIO pins
+- Full-fledged computer
 >>
 - Runs linux
+>>
+- GPIO pins
 ]]
 
 --
@@ -177,9 +173,9 @@ We need something that
     - 10-100 MHz
     - Low amounts of RAM
 >>
-- No operating system
+- No operating system ⇒
     - Full control
-    - No interrupts
+    - Timing guarantees
     - No safeguards
     - No heap
 >>
@@ -285,14 +281,6 @@ I lied, we need it for this
 - Pinouts
 - Datasheets
 
-
---
-
-### Input
-
-- A completely unconnected pin is *floating* and will have a nonsense value
-- Always connect inputs to a known value
-- Pull up/push down resistors do this
 
 
 --
@@ -604,11 +592,25 @@ https://gist.github.com/TheZoq2/d2ae78f44f63a55459a5e0a5c0ec7e57
 
 
 
+--
+
+### Input
+
+- A completely unconnected pin is *floating* and will have a nonsense value
+- Always connect inputs to a known value
+- Pull up/push down resistors do this
 
 
 --
 
-# The end
+### The end
+
+
+Slides are at http://thezoq2.github.io/Presentations
+
+<img src="resources/qr_code.gif" style="width: 30%;">
+
+
 
 ## See you at the hackathon
 
