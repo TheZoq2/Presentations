@@ -1,0 +1,1479 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Untitled</title>
+  <style type="text/css">
+    
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #fff;
+  font-size: 85%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #000;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 3px solid #333;
+  float: left;
+  margin-right: 3px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 80%;
+  line-height: 1.2;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #88E08E;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #CF74C1;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #ffda91;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #ffbbbb;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  /*color: #900;*/
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #73ffdc;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide -" id="slide-1">
+    <section class="slide-content"><h1 id="hello-physical-world">Hello, (physical) world</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="arduino">Arduino</h3>
+<pre><code class="lang-c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>{
+
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="arduino">Arduino</h3>
+<pre><code class="lang-c++"><span class="hljs-keyword">const</span> LED_PIN = <span class="hljs-number">13</span>;
+
+<span class="hljs-keyword">bool</span> led_state;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+    pinMode(LED_PIN, OUTPUT);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>{
+    led_state = !led_state;
+    <span class="hljs-keyword">if</span>(led_state) {
+        digitalWrite(LED_PIN, HIGH);
+    }
+    <span class="hljs-keyword">else</span> {
+        digitalWrite(LED_PIN, LOW);
+    }
+    delay(<span class="hljs-number">1000</span>);
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h1 id="introduction-to-electronics">Introduction to electronics</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="ohms-law">Ohms Law</h3>
+<ul>
+<li>More voltage -&gt; More current</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="ohms-law">Ohms Law</h3>
+<ul>
+<li>More voltage -&gt; More current</li>
+<li>More resistance -&gt; Less current</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="ohms-law">Ohms Law</h3>
+<ul>
+<li>More voltage -&gt; More current</li>
+<li>More resistance -&gt; Less current</li>
+</ul>
+<p>But, we don&#39;t really have to care. In digital circuits, voltage is all that matters</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<p>Disclaimer: i&#39;m simplifying, physicists may get angry.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<ul>
+<li>Voltage is a measure of electric potential</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<ul>
+<li>Voltage is a measure of electric potential</li>
+<li>High voltage -&gt; flow of charge (current) to lower voltage</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<ul>
+<li>Voltage is a measure of electric potential</li>
+<li>High voltage -&gt; flow of charge (current) to lower voltage</li>
+<li>Everything is relative, including voltage</li>
+<li>We choose what a &quot;high&quot; voltage is by chosing what 0 volts is</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<ul>
+<li>Voltage is a measure of electric potential</li>
+<li>High voltage -&gt; flow of charge (current) to lower voltage</li>
+<li>Everything is relative, including voltage</li>
+<li>We choose what a &quot;high&quot; voltage is by chosing what 0 volts is</li>
+<li>The zero point is called &quot;ground&quot;, because the earth can absorbe any charge us puny humans throw at it</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<ul>
+<li>Voltage is a measure of electric potential</li>
+<li>High voltage -&gt; flow of charge (current) to lower voltage</li>
+<li>Everything is relative, including voltage</li>
+<li>We choose what a &quot;high&quot; voltage is by chosing what 0 volts is</li>
+<li>The zero point is called &quot;ground&quot;, because the earth can absorbe any charge us puny humans throw at it</li>
+<li>Voltage is meaningless uneless there is a common reference</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="voltage">Voltage</h3>
+<ul>
+<li>Voltage is a measure of electric potential</li>
+<li>High voltage -&gt; flow of charge (current) to lower voltage</li>
+<li>Everything is relative, including voltage</li>
+<li>We choose what a &quot;high&quot; voltage is by chosing what 0 volts is</li>
+<li>The zero point is called &quot;ground&quot;, because the earth can absorbe any charge us puny humans throw at it</li>
+<li>Voltage is meaningless uneless there is a common reference<ul>
+<li><strong>Connect your grounds</strong></li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h2 id="digital-signals">Digital signals</h2>
+<ul>
+<li>Analog is unprecise and error prone<ul>
+<li>We don&#39;t want data to degrade because we used a long wire.</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h2 id="digital-signals">Digital signals</h2>
+<ul>
+<li>Analog is unprecise and error prone<ul>
+<li>We don&#39;t want data to degrade because we used a long wire.</li>
+</ul>
+</li>
+<li>Let&#39;s make more arbitrary choices!</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h2 id="digital-signals">Digital signals</h2>
+<ul>
+<li>Analog is unprecise and error prone<ul>
+<li>We don&#39;t want data to degrade because we used a long wire.</li>
+</ul>
+</li>
+<li>Let&#39;s make more arbitrary choices!</li>
+<li>0V is 0, some other voltage is 1<ul>
+<li>Round anything in between</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><p><img src="resources/digital.svg" style="width: 100%;"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><p><img src="resources/digital_with_both.svg" style="width: 100%;"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><p><img src="resources/digital_with_signal.svg" style="width: 100%;"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h3 id="what-is-high-">What is &#39;high&#39;</h3>
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt=""></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="what-is-high-">What is &#39;high&#39;</h3>
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt=""></p>
+<ul>
+<li>1.8 V</li>
+<li><strong>3.3 V</strong></li>
+<li><strong>5 V</strong></li>
+<li>12 V</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="what-is-high-">What is &#39;high&#39;</h3>
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt=""></p>
+<ul>
+<li>1.8 V</li>
+<li><strong>3.3 V</strong></li>
+<li><strong>5 V</strong></li>
+<li>12 V</li>
+</ul>
+<p>Don&#39;t mix and match, keep the magic smoke inside the chips!</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h3 id="what-is-high-">What is &#39;high&#39;</h3>
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt=""></p>
+<ul>
+<li>1.8 V</li>
+<li><strong>3.3 V</strong></li>
+<li><strong>5 V</strong></li>
+<li>12 V</li>
+</ul>
+<p>Don&#39;t mix and match, keep the magic smoke inside the chips!</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h1 id="programming-electronics">Programming electronics</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="programming-electronics">Programming electronics</h3>
+<p>We need something that</p>
+<ul>
+<li>can directly control electronics</li>
+<li>is embedable</li>
+<li>is cheap</li>
+<li>doesn&#39;t use much power</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h3 id="raspberry-pi">Raspberry PI</h3>
+<p><img src="resources/raspi.png" style="float: right; width: 50%"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="raspberry-pi">Raspberry PI</h3>
+<p><img src="resources/raspi.png" style="float: right; width: 50%"></p>
+<ul>
+<li>Full fledged computer</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="raspberry-pi">Raspberry PI</h3>
+<p><img src="resources/raspi.png" style="float: right; width: 50%"></p>
+<ul>
+<li>Full fledged computer</li>
+<li>GPIO pins</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="raspberry-pi">Raspberry PI</h3>
+<p><img src="resources/raspi.png" style="float: right; width: 50%"></p>
+<ul>
+<li>Full fledged computer</li>
+<li>GPIO pins</li>
+<li>Runs linux</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="microcontrollers">Microcontrollers</h3>
+<ul>
+<li>Purely designed for physical interraction</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h3 id="microcontrollers">Microcontrollers</h3>
+<ul>
+<li>Purely designed for physical interraction</li>
+<li>Slower<ul>
+<li>10-100 MHz</li>
+<li>Low amounts of RAM</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="microcontrollers">Microcontrollers</h3>
+<ul>
+<li>Purely designed for physical interraction</li>
+<li>Slower<ul>
+<li>10-100 MHz</li>
+<li>Low amounts of RAM</li>
+</ul>
+</li>
+<li>No operating system<ul>
+<li>Full control</li>
+<li>No interrupts</li>
+<li>No safeguards</li>
+<li>No heap</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h3 id="arduino">Arduino</h3>
+<p>A family of microcontrollers with common hardware and software to make embedded
+deveolopment approachable.</p>
+<p><img src='resources/arduino.png' style='float:right; width:55%;'></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h3 id="arduino">Arduino</h3>
+<p>A family of microcontrollers with common hardware and software to make embedded
+deveolopment approachable.</p>
+<p><img src='resources/arduino.png' style='float:right; width:55%;'></p>
+<ul>
+<li>Programmed in C++</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-36">
+    <section class="slide-content"><h3 id="arduino">Arduino</h3>
+<p>A family of microcontrollers with common hardware and software to make embedded
+deveolopment approachable.</p>
+<p><img src='resources/arduino.png' style='float:right; width:55%;'></p>
+<ul>
+<li>Programmed in C++</li>
+<li>Using the arduino IDE</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-37">
+    <section class="slide-content"><h3 id="arduino">Arduino</h3>
+<p>A family of microcontrollers with common hardware and software to make embedded
+deveolopment approachable.</p>
+<p><img src='resources/arduino.png' style='float:right; width:55%;'></p>
+<ul>
+<li>Programmed in C++</li>
+<li>Using the arduino IDE</li>
+<li>Libraries for most peripherals</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-38">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-40">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-41">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-42">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-43">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-44">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+<li>Programmable in most languages</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-45">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+<li>Programmable in most languages</li>
+</ul>
+<p>And some disadvantages:</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-46">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+<li>Programmable in most languages</li>
+</ul>
+<p>And some disadvantages:</p>
+<ul>
+<li>Needs some time to boot</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-47">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+<li>Programmable in most languages</li>
+</ul>
+<p>And some disadvantages:</p>
+<ul>
+<li>Needs some time to boot</li>
+<li>No timing guarantees</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-48">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+<li>Programmable in most languages</li>
+</ul>
+<p>And some disadvantages:</p>
+<ul>
+<li>Needs some time to boot</li>
+<li>No timing guarantees</li>
+<li>Relatively large</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-49">
+    <section class="slide-content"><h3 id="what-to-chose">What to chose</h3>
+<p>Advantages of a raspberry PI:</p>
+<ul>
+<li>Built in Wifi and bluetooth</li>
+<li>Plenty of linux tools</li>
+<li>Easy to debug</li>
+<li>Fast</li>
+<li>Programmable in most languages</li>
+</ul>
+<p>And some disadvantages:</p>
+<ul>
+<li>Needs some time to boot</li>
+<li>No timing guarantees</li>
+<li>Relatively large</li>
+<li>No analog inputs</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-50">
+    <section class="slide-content"><h3 id="an-led-on-a-raspberry-pi">An LED on a Raspberry pi</h3>
+<p>No on-board LED, we&#39;ll have to make our own</p>
+<p><img src='resources/led_no_resistor.png' style='width:80%;'></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-51">
+    <section class="slide-content"><h3 id="an-led-on-a-raspberry-pi">An LED on a Raspberry pi</h3>
+<p>No on-board LED, we&#39;ll have to make our own</p>
+<p><img src='resources/led_no_resistor.png' style='width:80%;'></p>
+<ul>
+<li>LEDs will use any current they can</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-52">
+    <section class="slide-content"><h3 id="an-led-on-a-raspberry-pi">An LED on a Raspberry pi</h3>
+<p>No on-board LED, we&#39;ll have to make our own</p>
+<p><img src='resources/led_no_resistor.png' style='width:80%;'></p>
+<ul>
+<li>LEDs will use any current they can</li>
+<li>But they can only take a few milliamps</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-53">
+    <section class="slide-content"><h3 id="an-led-on-a-raspberry-pi">An LED on a Raspberry pi</h3>
+<p>No on-board LED, we&#39;ll have to make our own</p>
+<p><img src='resources/led_no_resistor.png' style='width:80%;'></p>
+<ul>
+<li>LEDs will use any current they can</li>
+<li>But they can only take a few milliamps
+<img src='resources/led_with_resistor.png' style = 'width:80%;'></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-54">
+    <section class="slide-content"><h3 id="ohms-law-again">Ohms law again</h3>
+<p>I lied, we need it for this</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-55">
+    <section class="slide-content"><h3 id="ohms-law-again">Ohms law again</h3>
+<p>I lied, we need it for this</p>
+<ul>
+<li>LEDs have a voltage drop<ul>
+<li>Depends on the colour, but typically ~2-3 V</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-56">
+    <section class="slide-content"><h3 id="hooking-things-up">Hooking things up</h3>
+<p><img src='resources/breadboard.png' style='float:left;'></p>
+<p><img src='resources/jumper_wires.png' style='float:right; width:450px;'></p>
+<p><img src='resources/led.png' style='float:right; width:450px;'></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-57">
+    <section class="slide-content"><h3 id="where-to-hook-things-up-">Where to hook things up?</h3>
+<ul>
+<li>Pinouts</li>
+<li>Datasheets</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-58">
+    <section class="slide-content"><h3 id="input">Input</h3>
+<ul>
+<li>A completely unconnected pin is <em>floating</em> and will have a nonsense value</li>
+<li>Always connect inputs to a known value</li>
+<li>Pull up/push down resistors do this</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-59">
+    <section class="slide-content"><h1 id="let-s-make-something-">Let&#39;s make something!</h1>
+<h2 id="an-analog-digital-ruler">An analog digital ruler</h2>
+</section>
+  </div>
+  <div class="slide hidden ### The hardware" id="slide-60">
+    <section class="slide-content"><p>We&#39;ll be using a <strong>adafruit feather huzzah esp8266</strong>.</p>
+</section>
+  </div>
+  <div class="slide hidden ### The hardware" id="slide-61">
+    <section class="slide-content"><p>We&#39;ll be using a <strong>adafruit feather huzzah esp8266</strong>.</p>
+<ul>
+<li>Arduino or LUA</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden ### The hardware" id="slide-62">
+    <section class="slide-content"><p>We&#39;ll be using a <strong>adafruit feather huzzah esp8266</strong>.</p>
+<ul>
+<li>Arduino or LUA</li>
+<li>Built in wifi and bluetooth</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden ### The hardware" id="slide-63">
+    <section class="slide-content"><p>We&#39;ll be using a <strong>adafruit feather huzzah esp8266</strong>.</p>
+<ul>
+<li>Arduino or LUA</li>
+<li>Built in wifi and bluetooth</li>
+<li>Requires some setup in the IDE</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden ### The hardware" id="slide-64">
+    <section class="slide-content"><p>We&#39;ll be using a <strong>adafruit feather huzzah esp8266</strong>.</p>
+<ul>
+<li>Arduino or LUA</li>
+<li>Built in wifi and bluetooth</li>
+<li>Requires some setup in the IDE<ul>
+<li><a href="https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/using-arduino-ide">Instructions</a></li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-65">
+    <section class="slide-content"><h3 id="visualising-distances-using-a-servo">Visualising distances using a servo</h3>
+<p>A servo is a small motor where you can control the angle of the output.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-66">
+    <section class="slide-content"><h3 id="visualising-distances-using-a-servo">Visualising distances using a servo</h3>
+<p>A servo is a small motor where you can control the angle of the output.</p>
+<p>It is controlled using pulse width modulation (PWM)</p>
+<p><img src="resources/servo_pwm.svg" style="width:50%;"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-67">
+    <section class="slide-content"><h3 id="using-it-with-arduino">Using it with Arduino</h3>
+<ul>
+<li>Duck it!</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-68">
+    <section class="slide-content"><h3 id="using-it-with-arduino">Using it with Arduino</h3>
+<ul>
+<li>Duck it!</li>
+<li><a href="https://www.arduino.cc/en/Reference/Servo">https://www.arduino.cc/en/Reference/Servo</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-69">
+    <section class="slide-content"><h3 id="using-it-with-arduino">Using it with Arduino</h3>
+<ul>
+<li>Duck it!</li>
+<li><a href="https://www.arduino.cc/en/Reference/Servo">https://www.arduino.cc/en/Reference/Servo</a></li>
+<li>Where to connect it?</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-70">
+    <section class="slide-content"><h3 id="using-it-with-arduino">Using it with Arduino</h3>
+<ul>
+<li>Duck it!</li>
+<li><a href="https://www.arduino.cc/en/Reference/Servo">https://www.arduino.cc/en/Reference/Servo</a></li>
+<li>Where to connect it?</li>
+<li><a href="https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/pinouts/">Pinout</a><ul>
+<li>Look for the <em>pwm pins</em></li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-71">
+    <section class="slide-content"><p><img src="resources/images/-1332136999.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-72">
+    <section class="slide-content"><p><img src="resources/images/-259965817.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-73">
+    <section class="slide-content"><p><img src="resources/images/1039213489.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-74">
+    <section class="slide-content"><p><img src="resources/images/1039213489.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-75">
+    <section class="slide-content"><p><img src="resources/images/1573907617.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-76">
+    <section class="slide-content"><p><img src="resources/images/-1116426470.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-77">
+    <section class="slide-content"><p><img src="resources/images/-1766578279.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-78">
+    <section class="slide-content"><h3 id="programming-">Programming!</h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-79">
+    <section class="slide-content"><h3 id="programming-">Programming!</h3>
+<pre><code class="lang-c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;Servo.h&gt;</span></span>
+
+Servo servo;
+
+<span class="hljs-keyword">int</span> position = <span class="hljs-number">0</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// put your setup code here, to run once:</span>
+
+    servo.attach(<span class="hljs-number">12</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>{
+    position = (position + <span class="hljs-number">10</span>) % <span class="hljs-number">180</span>;
+
+    servo.write(position);
+
+    delay(<span class="hljs-number">1000</span>);
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-80">
+    <section class="slide-content"><h3 id="measuring-distances">Measuring distances</h3>
+<p>HY-SRF05 ultrasound distance sensor</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-81">
+    <section class="slide-content"><h3 id="measuring-distances">Measuring distances</h3>
+<p>HY-SRF05 ultrasound distance sensor</p>
+<ul>
+<li>How does it work? Duck it</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-82">
+    <section class="slide-content"><h3 id="measuring-distances">Measuring distances</h3>
+<p>HY-SRF05 ultrasound distance sensor</p>
+<ul>
+<li>How does it work? Duck it</li>
+<li><a href="http://www.f15ijp.com/2012/09/arduino-ultrasonic-sensor-hc-sr04-or-hy-srf05/">Strange blog with examples</a></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-83">
+    <section class="slide-content"><h3 id="measuring-distances">Measuring distances</h3>
+<p>HY-SRF05 ultrasound distance sensor</p>
+<ul>
+<li>How does it work? Duck it</li>
+<li><a href="http://www.f15ijp.com/2012/09/arduino-ultrasonic-sensor-hc-sr04-or-hy-srf05/">Strange blog with examples</a></li>
+<li>⚠ 5V ⚠<ul>
+<li>If input is 5V, chances are output is 5v</li>
+<li>Check our microcontroller</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-84">
+    <section class="slide-content"><h3 id="measuring-distances">Measuring distances</h3>
+<p>HY-SRF05 ultrasound distance sensor</p>
+<ul>
+<li>How does it work? Duck it</li>
+<li><a href="http://www.f15ijp.com/2012/09/arduino-ultrasonic-sensor-hc-sr04-or-hy-srf05/">Strange blog with examples</a></li>
+<li>⚠ 5V ⚠<ul>
+<li>If input is 5V, chances are output is 5v</li>
+<li>Check our microcontroller</li>
+<li><a href="https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/pinouts#logic-pins-2-7">Not 5v tolerant</a></li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-85">
+    <section class="slide-content"><h3 id="logic-level-shifters">Logic level shifters</h3>
+<ul>
+<li><a href="https://www.electrokit.com/produkt/nivaomvandlare-4-kanaler-bidirektionell-i2c"/>We have this one</a></li>
+<li>Connect LV to 3.3, HV to 5, GND to GND</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-86">
+    <section class="slide-content"><p><img src="resources/images/55270615.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-87">
+    <section class="slide-content"><p><img src="resources/images/-1369194515.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-88">
+    <section class="slide-content"><p><img src="resources/images/-1503653303.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-89">
+    <section class="slide-content"><p><img src="resources/images/-1508264138.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-90">
+    <section class="slide-content"><p><img src="resources/images/-347075125.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-91">
+    <section class="slide-content"><p><img src="resources/images/-1365356165.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-92">
+    <section class="slide-content"><h3 id="programming-">Programming!</h3>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;Servo.h&gt;</span></span>
+
+Servo servo;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> TRIG_PIN = <span class="hljs-number">4</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ECHO_PIN = <span class="hljs-number">5</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// put your setup code here, to run once:</span>
+
+    Serial.begin(<span class="hljs-number">9600</span>);
+
+    servo.attach(<span class="hljs-number">12</span>);
+
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
+    digitalWrite(TRIG_PIN, LOW);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>{
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(<span class="hljs-number">10</span>);
+    digitalWrite(TRIG_PIN, LOW);
+
+    <span class="hljs-keyword">auto</span> duration = pulseIn(ECHO_PIN, HIGH);
+
+    <span class="hljs-keyword">auto</span> distance = duration / <span class="hljs-number">29.1</span> / <span class="hljs-number">2</span>;
+
+    Serial.print(distance);
+    Serial.println(<span class="hljs-string">" cm"</span>);
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-93">
+    <section class="slide-content"><h1 id="communication">Communication</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-94">
+    <section class="slide-content"><h3 id="encoding-data">Encoding data</h3>
+<p>What&#39;s the difference between 1 and 111111?</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-95">
+    <section class="slide-content"><h3 id="encoding-data">Encoding data</h3>
+<p>What&#39;s the difference between 1 and 111111?</p>
+<ul>
+<li>Predefined time for bits</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-96">
+    <section class="slide-content"><h3 id="encoding-data">Encoding data</h3>
+<p>What&#39;s the difference between 1 and 111111?</p>
+<ul>
+<li>Predefined time for bits</li>
+<li>Other wire that says &quot;there is data&quot;</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-97">
+    <section class="slide-content"><h3 id="encoding-data">Encoding data</h3>
+<p>What&#39;s the difference between 1 and 111111?</p>
+<ul>
+<li>Predefined time for bits</li>
+<li>Other wire that says &quot;there is data&quot;</li>
+<li>There are standard protocols</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-98">
+    <section class="slide-content"><h3 id="encoding-data">Encoding data</h3>
+<p>What&#39;s the difference between 1 and 111111?</p>
+<ul>
+<li>Predefined time for bits</li>
+<li>Other wire that says &quot;there is data&quot;</li>
+<li>There are standard protocols</li>
+</ul>
+<p>Libraries usually handle this for you</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-99">
+    <section class="slide-content"><h3 id="protocol-1-uart-universal-asyncronous-receiver-transmitter-">Protocol 1: UART (Universal asyncronous receiver-transmitter)</h3>
+<ul>
+<li>TX and RX pins</li>
+<li>TX -&gt; RX, RX-&gt;TX</li>
+<li>Baud rate, usually (9600 or 115200)</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-100">
+    <section class="slide-content"><h3 id="protocol-2-spi-serial-peripheral-interface-">Protocol 2: SPI (Serial Peripheral Interface)</h3>
+<ul>
+<li>CLK/SCK</li>
+<li>MOSI (Master Out Slave In)</li>
+<li>MISO (Master In Slave Out)</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-101">
+    <section class="slide-content"><h3 id="protocol-2-spi-serial-peripheral-interface-">Protocol 2: SPI (Serial Peripheral Interface)</h3>
+<ul>
+<li>CLK/SCK</li>
+<li>MOSI (Master Out Slave In)</li>
+<li>MISO (Master In Slave Out)</li>
+<li>Sometimes chip select</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-102">
+    <section class="slide-content"><h3 id="protocol-3-iinter-interconnected-circuit-i-c">Protocol 3: <strong>I</strong>inter <strong>I</strong>nterconnected <strong>Circuit</strong> I²C</h3>
+<ul>
+<li>SCL (Clock)</li>
+<li>SDA (Data)</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-103">
+    <section class="slide-content"><h3 id="protocol-3-iinter-interconnected-circuit-i-c">Protocol 3: <strong>I</strong>inter <strong>I</strong>nterconnected <strong>Circuit</strong> I²C</h3>
+<ul>
+<li>SCL (Clock)</li>
+<li><p>SDA (Data)</p>
+</li>
+<li><p>One <em>master</em>, multiple <em>slaves</em> on the same bus</p>
+</li>
+<li>Address of target starts communication</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-104">
+    <section class="slide-content"><h1 id="an-i-c-innertial-measurement-unit">An I²C innertial measurement unit</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-105">
+    <section class="slide-content"><h3 id="sparkfun-lsm9ds1">Sparkfun LSM9DS1</h3>
+<ul>
+<li>Search it!</li>
+<li><a href="https://learn.sparkfun.com/tutorials/lsm9ds1-breakout-hookup-guideHookup guide">Hookup guide</a></li>
+<li>Can do both SPI and I²C, I²C seems easier</li>
+<li>Where to hook up?<ul>
+<li>Check the huzzah pinout</li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-106">
+    <section class="slide-content"><p><img src="resources/images/945959627.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-107">
+    <section class="slide-content"><p><img src="resources/images/271165181.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-108">
+    <section class="slide-content"><p><img src="resources/images/1143703822.JPG" class="fullscreen"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-109">
+    <section class="slide-content"><h3 id="code">Code</h3>
+<p><a href="https://gist.github.com/TheZoq2/d2ae78f44f63a55459a5e0a5c0ec7e57">https://gist.github.com/TheZoq2/d2ae78f44f63a55459a5e0a5c0ec7e57</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-110">
+    <section class="slide-content"><h1 id="the-end">The end</h1>
+<h2 id="see-you-at-the-hackathon">See you at the hackathon</h2>
+</section>
+  </div>
+
+  <div class="controls">
+    <div class="arrow prev"></div>
+    <div class="arrow next"></div>
+  </div>
+
+
+  <script type="text/javascript">
+    /* Returns the current page number of the presentation */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+/* Navigates forward n pages (navigate in reverse if n is negative) */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+/* Updates the current URL to include a hashtag of the current page number */
+function updateURL() {
+  window.location.hash = currentPosition();
+}
+
+/* Sets the progress indicator */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/* Determines whether or not we are currently in full screen mode */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+  </script>
+</body>
+</html>
