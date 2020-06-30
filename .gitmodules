@@ -4,3 +4,6 @@
 [submodule "PythonGamedevPresentation"]
 	path = PythonGamedevPresentation
 	url = https://github.com/TheZoq2/PythonGamedevPresentation
+[submodule "embedded-overview/listings-rust"]
+	path = embedded-overview/listings-rust
+	url = https://github.com/denki/listings-rust
