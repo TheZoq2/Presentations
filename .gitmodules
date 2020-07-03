@@ -7,3 +7,6 @@
 [submodule "embedded-overview/listings-rust"]
 	path = embedded-overview/listings-rust
 	url = https://github.com/denki/listings-rust
+[submodule "embedded-overview/linehighlight"]
+	path = embedded-overview/linehighlight
+	url = git@github.com:cebe/linehighlight.git
