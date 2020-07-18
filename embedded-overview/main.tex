@@ -1,25 +1,39 @@
-\documentclass[169]{beamer}
+\documentclass[aspectratio=169]{beamer}
 
 \usepackage{listings}
 \usepackage{listings-rust}
 \usepackage{xcolor, tikz}
 \usepackage{linehighlight}
+\usepackage{fontspec}
 \usepackage{wrapfig}
+\usepackage{animate}
+\usetikzlibrary{shapes,arrows, positioning, decorations.markings}
 
-\usetheme{metropolis}
+\usetheme[sectionpage=simple]{metropolis}
 
 \title{An Overview of the Embedded Rust Ecosystem}
 \subtitle{Or, Why are there so many crates, and what do they do?}
 \author{Frans Skarman aka. TheZoq2}
 
 
+\definecolor{background}{rgb}{0.98,0.98,0.98}
+\definecolor{oxidizepurple}{RGB}{49 0 86}
+
+\setbeamercovered{invisible}
+\setbeamercovered{%
+  again covered={\opaqueness<1->{50}}}
+\setbeamercolor{title separator}{bg=background, fg=oxidizepurple}
+\setbeamercolor{frametitle}{bg=background, fg=oxidizepurple}
+
+
+\setmainfont{Ubuntu}
 % \usepackage{fontspec}
 % \setmonofont[Contextuals={Alternate}]{Hasklug Nerd Font}
 
 % set colors for code background and highlighting
-\definecolor{codehighlight}{rgb}{0.95,0.8,0.8}
+\definecolor{codehighlight}{rgb}{0.95,0.9,0.95}
 \definecolor{codebackground}{rgb}{0.98,0.98,0.98}
-\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygreen}{rgb}{0,0.4,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \lstset{ 
@@ -27,6 +41,7 @@
     % backgroundcolor=\color{white},
     % the size of the fonts that are used for the code
     basicstyle=\footnotesize\ttfamily,
+    commentstyle=\color{mygreen},
     % sets if automatic breaks should only happen at whitespace
     breakatwhitespace=false,
     % sets automatic line breaking
@@ -67,14 +82,11 @@
 \begin{document}
 \maketitle
 
-\begin{frame}{TODO}
-    \begin{itemize}
-        \item Ferris attribution
-        \item BSP crates
-        \item RTIC
-        \item Cortex-m
-    \end{itemize}
-\end{frame}
+% \begin{frame}{TODO}
+%     \begin{itemize}
+%         \item Ferris attribution
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}
     \frametitle{Who am I?}
@@ -86,13 +98,16 @@
         \item Maintainer of \texttt{stm32f1xx\_hal}
         \item My desk is covered in rust
     \end{itemize}
+
+    % \animategraphics[autoplay, loop, width=0.4\textwidth]{30}{fig/wave/}{0}{30}
+    \includegraphics[width=0.5\textwidth]{fig/wave.png}
 \end{frame}
 
 \begin{frame}
     \frametitle{Who are you?}
 
-    \begin{itemize}
-        \item Embedded rust (this talk probably won't be very interesting for you)
+    \begin{itemize}[<+>]
+        \item Embedded rust
         \item Arduino
         \item Embedded C
         \item Rust user
@@ -100,11 +115,13 @@
 \end{frame}
 
 \begin{frame}{Goals}
-    There are lots of embedded crates
+    \uncover<1>{There are lots of embedded crates}
 
-    How do they all fit together?
+    \uncover<1>{How do they all fit together?}
 
-    Explained through showing the need for them
+    \uncover<2>{Explained through showing the need for them}
+
+    \uncover<3>{The initial code is not something you'd write 😉}
 \end{frame}
 
 \begin{frame}
@@ -118,24 +135,30 @@
 \end{frame}
 
 \begin{frame}{An example: turning on an LED}
-    Using an \texttt{stm32f1} processor
+    \uncover<1>{Using an \texttt{stm32f1} processor}
 
-    After reading the 12 pages about the GPIO peripheral
-    \begin{itemize}
-        \item{Power up the GPIO peripheral in the RCC register}
-        \item{Configure pin as output}
-        \item{In the correct mode}
-        \item{Set output to High}
-    \end{itemize}
+    \uncover<2>{
+        Start by reading the 1000 page datasheet:
+    }
+
+    \uncover<3>{
+        Process:
+        \begin{itemize}
+            \item{Power up the GPIO peripheral in the RCC peripheral}
+            \item{Configure pin as output}
+            \item{In the correct mode}
+            \item{Set output to High}
+        \end{itemize}
+    }
 \end{frame}
 
 \begin{frame}{An example: turning on an LED}
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            Configure pin 5 as output
+            Configure pin 13 as output
 
             \begin{itemize}
-                \item{Registers are at offset \texttt{0x00}}
+                \item{Control register at offset \texttt{0x04}}
                 \item{Offset from start of GPIOx}
                 \item{Write \texttt{0b10} in bit 20, 21}
                 \item{Write \texttt{0b01} in bit 23, 22}
@@ -152,6 +175,25 @@
 \end{frame}
 
 \begin{frame}{The rust code}
+    \begin{linehighlight}{
+          \only<1>{
+                \highline{2,...,2}
+          }
+          \only<2>{
+                \highline{4,...,6}
+          }
+          \only<3>{
+                \highline{8,...,9}
+          }
+          \only<4>{
+                \highline{11,...,17}
+          }
+    }
+        \lstinputlisting[language=rust]{code/raw.rs}
+    \end{linehighlight}
+\end{frame}
+
+\begin{frame}{The rust code}
     \begin{itemize}
         \item Very unsafe
         \item Very unergonomic
@@ -164,7 +206,6 @@
         \item{Published by microcontroller manufacturers}
         \item{Describes the function of each register}
         \item{\texttt{svd2rust} generates rust crates}
-        \item{Usually have some errors that need manual intervention}
     \end{itemize}
 \end{frame}
 
@@ -172,14 +213,30 @@
     \begin{itemize}
         \item{Result of patches + \texttt{svd2rust}}
         \item{\textit{Mostly} safe interface}
-        \item{Adds a lot of zero cost abstraction (in release mode)}
+        \item{Adds a lot of zero cost abstraction}
         \item{Prevents re-use of peripherals}
-        \item{TODO: Code example}
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Peripheral Access Crates (PACs)}
+    \begin{linehighlight}{
+          \only<1>{
+                \highline{2,...,2}
+          }
+          \only<2>{
+                \highline{4,...,9}
+          }
+          \only<3>{
+                \highline{10,...,14}
+          }
+    }
+        \lstinputlisting[language=rust]{code/pac.rs}
+    \end{linehighlight}
+\end{frame}
+
+\begin{frame}{Peripheral Access Crates (PACs)}
     \begin{itemize}
+        \item{Much higher level interface}
         \item{Zero cost abstraction}
         \begin{itemize}\item{(In release mode)}\end{itemize}
         \item{Most unsafety is now fixed}
@@ -198,18 +255,21 @@
     \hspace*{5cm}\includegraphics[width=0.40\textwidth]{fig/ferrisSob.png}
 \end{frame}
 
-\begin{frame}[fragile]{Hardware Abstraction Layers (HALs)}
+\begin{frame}{Hardware Abstraction Layers (HALs)}
     A high level interface around the PAC
+\end{frame}
+
+\begin{frame}[fragile]{Hardware Abstraction Layers (HALs)}
 
     \begin{linehighlight}{
           \only<1>{ % Only on slides 1 and 3 (beamer stuff)
-                \highline{2,...,4} % highlight code lines 1,3 and 5.
+                \highline{2,...,3} % highlight code lines 1,3 and 5.
           }
-          \only<2>{ % Only on slide 2 (beamer)
-                \highline{6,...,8} % highlight lines 2 to 8.
+          \only<2> {
+                \highline{5,...,6} % highlight lines 2 to 8.
           }
           \only<3>{ % Only on slide 2 (beamer)
-                \highline{10,...,13} % highlight lines 2 to 8.
+                \highline{8,...,11} % highlight lines 2 to 8.
           }
     }
         \lstinputlisting[language=rust]{code/hal_example.rs}
@@ -237,16 +297,40 @@
         \item Length of return pulse is proportional to distance
     \end{itemize}
 
-    (Assume we added timers to our HAL)
     \hspace*{5cm}\includegraphics[width=0.40\textwidth]{fig/ultrasonic.png}
 \end{frame}
 
 \begin{frame}{External Hardware (Implementation)}
-    \lstinputlisting[language=rust]{code/ultrasonic.rs}
+    \vspace{-0.5cm}
+    \begin{linehighlight}{
+          \only<1>{ % Only on slides 1 and 3 (beamer stuff)
+                \highline{3,...,4} % highlight code lines 1,3 and 5.
+          }
+          \only<2>{ % Only on slide 2 (beamer)
+                \highline{6,...,9} % highlight lines 2 to 8.
+          }
+          \only<3>{ % Only on slide 2 (beamer)
+                \highline{11,...,16} % highlight lines 2 to 8.
+          }
+    }
+        \lstinputlisting[language=rust]{code/ultrasonic.rs}
+    \end{linehighlight}
 \end{frame}
 
 \begin{frame}{External Hardware (Usage)}
-    \lstinputlisting[language=rust]{code/ultrasonic_usage.rs}
+    \begin{linehighlight}{
+          \only<1>{ % Only on slides 1 and 3 (beamer stuff)
+                \highline{2,...,3} % highlight code lines 1,3 and 5.
+          }
+          \only<2>{ % Only on slide 2 (beamer)
+                \highline{5,...,9} % highlight lines 2 to 8.
+          }
+          \only<3>{ % Only on slide 2 (beamer)
+                \highline{11,...,12} % highlight lines 0 to 8.
+          }
+    }
+        \lstinputlisting[language=rust]{code/ultrasonic_usage.rs}
+    \end{linehighlight}
 \end{frame}
 
 \begin{frame}{External Hardware}
@@ -266,8 +350,8 @@
 
     With a slightly different API
 
-    \hspace*{1cm}\includegraphics[width=0.40\textwidth]{fig/another_hal.pdf}
-    \hspace*{5cm}\includegraphics[width=0.30\textwidth]{fig/rustacean-flat-happy.pdf}
+    \vspace*{1cm}\hspace*{2cm}\includegraphics[width=0.40\textwidth]{fig/another_hal.pdf}
+    % \hspace*{5cm}\includegraphics[width=0.30\textwidth]{fig/rustacean-flat-happy.pdf}
 \end{frame}
 
 \begin{frame}{Another HAL}
@@ -275,7 +359,8 @@
         \item Our driver used our types
         \item It is not compatible with the other HAL
     \end{itemize}
-    TODO: Ferrises
+    \includegraphics[width=0.4\textwidth]{fig/static_sweat.png}
+    % \includegraphics[width=0.4\textwidth]{fig/rustacean-flat-sad.pdf}
 \end{frame}
 
 
@@ -292,12 +377,8 @@
         \item HALs implement them
         \item Drivers use them
         \item Driver re-use across the ecosystem!
-        TODO: Ferrises
+        % TODO: Ferrises
     \end{itemize}
-\end{frame}
-
-\begin{frame}{HAL implementation example}
-    TODO
 \end{frame}
 
 \begin{frame}{HAL Usage Example}
@@ -323,31 +404,86 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Board Support Crates (BSP)}
+    Provides utilities for breakout boards
 
-\begin{frame}{Conclusion}
     \begin{itemize}
-        \item \texttt{embedded-hal} is the core of ecosystem
-        \item hals implement embedded-hal traits
-        \item usually by using pacs
-        \item drivers use \texttt{e-h} traits to talk to external devices
+        \item Silkscreen pinouts
+        \item Drivers for peripherals
+        \item etc.
     \end{itemize}
-    Other crates exist
+\end{frame}
+
+\begin{frame}{\texttt{cortex-x} crates}
+    Cortex-<m,a,r> is the core of many arm microcontrollers
+
+    Some relevant crates:
     \begin{itemize}
-        \item{RTIC provides concurrency}
-        \item{svd2rust generates PACs}
+        \item \texttt{cortex-m}: PAC for core peripherals (timers, debugger etc.)
+        \item \texttt{cortex-m-rt}: minimal runtime (entry points, exceptions, \dots)
+            \begin{itemize}\item included with \texttt{rt} feature in PACs\end{itemize}
+        \item \texttt{cortex-m-semihosting}: Debugging convenience
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusion}
-    Where should you start?
+    \uncover<1> {
+        \begin{itemize}
+            \item \texttt{embedded-hal} is the core of ecosystem
+            \item HALs implement embedded-hal traits
+            \item usually by using PACs
+            \item drivers use \texttt{e-h} traits to talk to external devices
+        \end{itemize}
+    }
+    \uncover<2> {
+        Other crates exist
+        \begin{itemize}
+            \item{RTIC provides concurrency}
+            \item{svd2rust generates PACs}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Conclusion}
-    Where should you start?
+\begin{frame}{Where should you start?}
+    \uncover<1> {
+        HALs are nice!
 
-    New to embedded rust?
-    % \begin{itemize}
-    % \end{itemize}
+        Starting from scratch?
+        \begin{itemize}
+            \item{Pick a microcontroller with a good HAL}
+        \end{itemize}
+    }
+
+    \uncover<2>{
+        Specific hardware in mind?
+        \begin{itemize}
+            \item{Look for a HAL}
+            \item{If none exist}
+            \begin{itemize}
+                \item Check for a PAC
+                \item Or make one using svd2rust if svd files are available
+                \item Build a HAL on top
+            \end{itemize}
+        \end{itemize}
+    }
+
+    \uncover<3> {
+        Similar steps for drivers
+    }
+\end{frame}
+
+\begin{frame}{Resources}
+    \begin{itemize}
+        \item A collection of most rust-embedded related things
+            \begin{itemize}\item \url{https://github.com/rust-embedded/awesome-embedded-rust}\end{itemize}
+        \item{embedded-wg chatroom}
+        \item{Community discord}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \section{Thank you for listening!}
 \end{frame}
 
 \end{document}
